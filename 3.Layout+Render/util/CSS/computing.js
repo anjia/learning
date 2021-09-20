@@ -39,52 +39,52 @@ function computeCSS(curElement, stack) {
 
     // 遍历规则，找到匹配当前元素的规则 
     for (let rule of rules) {
-        // 不处理以,分隔的CSS选择器规则，只处理单条规则的
-        // 也只处理以空格分隔的后代选择器
         // eg. .a #id img {} → [img, #id, .a]
-        var selectorParts = rule.selectors[0].split(' ').reverse();
-        // 先判断是否匹配“元素自己”
-        if (!match(curElement, selectorParts[0])) {
-            continue;
-        }
+        // 以,分隔的
+        rule.selectors.forEach(ruleSelector => {
+            var selectorParts = ruleSelector.split(' ').reverse(); //只处理以空格分隔的后代选择器
+            // 先判断是否匹配“元素自己”
+            if (match(curElement, selectorParts[0])) {
 
-        // 再判断是否匹配父亲们，[父亲们] [CSS规则的级联项们]二者均是数组
-        // eg. 当前元素 [div, parent, parent]
-        // eg. 当前规则 [img, #id, .a]
-        let matched = false;
-        let j = 1;
-        for (let i = 0; i < ancestor.length && j < selectorParts.length; i++) {
-            if (match(ancestor[i], selectorParts[j])) {
-                j++;
-            }
-        }
-        if (j >= selectorParts.length) {
-            matched = true;
-        }
+                // 再判断是否匹配父亲们，[父亲们] [CSS规则的级联项们]二者均是数组
+                // eg. 当前元素 [div, parent, parent]
+                // eg. 当前规则 [img, #id, .a]
+                let matched = false;
+                let j = 1;
+                for (let i = 0; i < ancestor.length && j < selectorParts.length; i++) {
+                    if (match(ancestor[i], selectorParts[j])) {
+                        j++;
+                    }
+                }
+                if (j >= selectorParts.length) {
+                    matched = true;
+                }
 
-        if (matched) {
-            // 如果匹配到，则要加入真实的元素中
-            // console.log('------ 匹配成功：元素+规则 ------');
-            // console.log('Element', curElement.tagName, curElement.attributes.join(''), 'matched rule:', rule.selectors.join(','));
-            // console.log('Element', curElement);
-            let sp = specificity(rule.selectors[0]);
-            let computedStyle = curElement.computedStyle;
-            for (let declaration of rule.declarations) {
-                if (!computedStyle[declaration.property]) {
-                    computedStyle[declaration.property] = {};
-                }
-                if (!computedStyle[declaration.property].specificity) {
-                    computedStyle[declaration.property].value = declaration.value;
-                    computedStyle[declaration.property].specificity = sp;
-                } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
-                    computedStyle[declaration.property].value = declaration.value;
-                    computedStyle[declaration.property].specificity = sp;
-                    // console.log('---有覆盖', computedStyle[declaration.property]);
+                if (matched) {
+                    // 如果匹配到，则要加入真实的元素中
+                    // console.log('------ 匹配成功：元素+规则 ------');
+                    // console.log('Element', curElement.tagName, curElement.attributes.join(''), 'matched rule:', rule.selectors.join(','));
+                    // console.log('Element', curElement);
+                    let sp = specificity(rule.selectors[0]);
+                    let computedStyle = curElement.computedStyle;
+                    for (let declaration of rule.declarations) {
+                        if (!computedStyle[declaration.property]) {
+                            computedStyle[declaration.property] = {};
+                        }
+                        if (!computedStyle[declaration.property].specificity) {
+                            computedStyle[declaration.property].value = declaration.value;
+                            computedStyle[declaration.property].specificity = sp;
+                        } else if (compare(computedStyle[declaration.property].specificity, sp) <= 0) {
+                            computedStyle[declaration.property].value = declaration.value;
+                            computedStyle[declaration.property].specificity = sp;
+                            // console.log('---有覆盖', computedStyle[declaration.property]);
+                        }
+                    }
+                    // console.log('---最终是：');
+                    // console.log(curElement.computedStyle);
                 }
             }
-            // console.log('---最终是：');
-            // console.log(curElement.computedStyle);
-        }
+        });
     }
 }
 /**

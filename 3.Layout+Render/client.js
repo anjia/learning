@@ -25,7 +25,7 @@ void async function () {
 
     // 简化版（真实情况是逐段返回，所以需做成异步分段处理）
     let dom = parser.parseHTML(response.body);
-    // console.log('\n------ The DOM is:');
+    console.log('\n------ The DOM is:');
     // console.log(dom);
     // console.log(JSON.stringify(dom, null, '    '));
 
@@ -33,4 +33,5 @@ void async function () {
     let viewport = images(800, 1000);
     render(viewport, dom);  // .children[0].children[3].children[1].children[3]
     viewport.save('viewport.jpg');
+    console.log('\nDone! The render result is the file "viewport.jpg"');
 }();

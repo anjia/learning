@@ -44,6 +44,64 @@
             background-color: rgb(255, 160, 122);
         }
 
+        .cont1,
+        .cont2,
+        .cont3,
+        .cont4,
+        .cont5,
+        .cont6 {
+            display: flex;
+            height: 100px;
+            width: 700px;
+            background-color: rgb(255, 255, 255);
+            margin-bottom: 10px;
+        }
+
+        /* top: 绘制时用 */
+        .cont2 {
+            top: 110px;
+        }
+
+        .cont3 {
+            top: 220px;
+        }
+
+        .cont3 .c2 {
+            flex: 2;
+        }
+
+        .cont3 .c4 {
+            flex: 3;
+        }
+
+        .cont4 {
+            top: 330px;
+            flex-direction: column;
+        }
+
+        .cont5 {
+            top: 440px;
+            flex-direction: column-reverse;
+        }
+
+        .cont6 {
+            top: 550px;
+            height: 450px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            /*space-around; space-between*/
+            align-items: flex-start;
+            align-content: space-around;
+            /* 只在多行时生效，作用在cross-axis（效果类似main-axis的justify-content） */
+        }
+
+        .cont6 li {
+            width: 117px;
+            background-color: rgb(211, 211, 211);
+            overflow-wrap: break-word;
+        }
+
+        /* toy-browser 未绘制文本等，所以手动设置height以撑开元素 */
         .l1 {
             height: 16px;
         }
@@ -62,81 +120,6 @@
 
         .l5 {
             height: 96px;
-        }
-
-        .cont1 {
-            display: flex;
-            height: 100px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-        }
-
-        .cont2 {
-            display: flex;
-            height: 100px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-            top: 110px;
-        }
-
-        .cont3 {
-            display: flex;
-            height: 100px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-            top: 220px;
-        }
-
-        .cont3 .c2 {
-            flex: 2;
-        }
-
-        .cont3 .c4 {
-            flex: 3;
-        }
-
-        .cont4 {
-            display: flex;
-            height: 100px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-            top: 330px;
-            flex-direction: column;
-        }
-
-        .cont5 {
-            display: flex;
-            height: 100px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-            top: 440px;
-            flex-direction: column-reverse;
-        }
-
-        .cont6 {
-            display: flex;
-            height: 450px;
-            width: 700px;
-            background-color: rgb(255, 255, 255);
-            margin-bottom: 10px;
-            top: 550px;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            /*space-around; space-between*/
-            align-items: flex-start;
-            align-content: space-around;
-            /* 只在多行时生效，作用在cross-axis（效果类似main-axis的justify-content） */
-        }
-
-        .cont6 li {
-            width: 117px;
-            background-color: rgb(211, 211, 211);
-            overflow-wrap: break-word;
         }
     </style>
 </head>

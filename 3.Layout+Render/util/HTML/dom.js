@@ -47,7 +47,7 @@ function emit(token) {
 
         // 父子关系：top 是当前元素的父
         top.children.push(element);
-        element.parent = top;
+        // element.parent = top; // console.log(JSON.stringify(dom, null, '    ')); 时循环引用
 
         // 入栈
         if (!token.isSelfClosing) {
