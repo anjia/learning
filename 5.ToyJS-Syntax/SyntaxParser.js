@@ -54,10 +54,10 @@ let syntax = {
         ['Identifier']
     ],
     Literal: [
-        ['Number'],  // NumberLiteral
-        ['String'],
-        ['Boolean'],
-        ['Null'],
+        ['NumberLiteral'],
+        ['StringLiteral'],
+        ['BooleanLiteral'],
+        ['NullLiteral'],
         ['RegularExpression']
     ]
 };
@@ -171,6 +171,7 @@ function parse(source) {
                 stack.pop();
                 children.push(symbolStack.pop());
             }
+            // console.warn('reduce() nonTerminalSymbol:', state.$reduceType);
             // 移入一个新的symbol
             // create a non-terminal symbol and shift it
             return {
@@ -181,21 +182,17 @@ function parse(source) {
             throw new Error('unexpected token');
         }
     }
-    function shift(symbol, isNonTerminal) {
-        // if (isNonTerminal) {
-        //     console.warn('shift() nonTerminalSymbol:', symbol);
-        // } else {
-        //     console.log('shift() terminalSymbol:', symbol);
-        // }
-
+    function shift(symbol) {
         let state = stack[stack.length - 1];
         if (symbol.type in state) {
+            // console.log('shift() terminalSymbol:', symbol);
             stack.push(state[symbol.type]);
             symbolStack.push(symbol);
         } else {
             // reduce to non-terminal symbols
-            shift(reduce(), true);
-            shift(symbol, isNonTerminal);
+            shift(reduce());
+            shift(symbol);
+            // console.warn('shift() nonTerminalSymbol:', symbol);
         }
     }
 
@@ -211,12 +208,12 @@ function parse(source) {
 
 console.group('2.将lexer产生的token流 -> terminal symbols -> 在状态机里跑一圈 -> 语法树');
 let source = `
-    //1;
-    //1+2; //bug: Expression
-    var a;
-    let c;
-    //if(a) 2;
-    //function foo() { let b; }
+    1;
+    var name;
+    let age;
+    if (age) 2;
+    function foo() { let sex; }
+    //1+2; //bug: Expression.（TODO.表达式时）
 `;
 // debugger;
 // parse(source);
@@ -244,8 +241,41 @@ let evaluator = {
     },
     VariableDeclaration(node) {
         // 变量存储在哪里，以什么形式来存储
-        // Envrionment 执行时的环节
+        // Environment 执行时的环节
         console.log('Declare Variable:', node.children[1].name);
+    },
+    FunctionDeclaration(node) {
+        console.log(node.type, ':', node.children[1].name);
+    },
+    IfStatement(node) {
+        console.log('IfStatement ');
+        return evaluate(node.children[2]);
+        // evaluate(node.children[2]);
+        // return evaluate(node.children[4]);
+    },
+    ExpressionStatement(node) {
+        return evaluate(node.children[0]);
+    },
+    Expression(node) {
+        return evaluate(node.children[0]);
+    },
+    AdditiveExpression(node) {
+        return evaluate(node.children[0]);
+    },
+    MultiplicativeExpression(node) {
+        return evaluate(node.children[0]);
+    },
+    PrimaryExpression(node) {
+        return evaluate(node.children[0]);
+    },
+    Identifier(node) {
+        console.log(node.type, ':', node.name);
+    },
+    Literal(node) {
+        return evaluate(node.children[0]);
+    },
+    NumberLiteral(node) {
+        console.log(node.type, ':', node.value);
     },
     EOF() {
         return null;
