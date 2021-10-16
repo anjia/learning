@@ -1,0 +1,60 @@
+<textarea name="source" id="source" cols="30" rows="10">
+a={b:2}; a.b;
+</textarea>
+<button id="btn">语义分析</button>
+<pre>
+"hello\bworld";
+"hello\nJack!";
+"a\rb!";
+"{}";
+{};
+{
+    a: 1
+};
+{
+    a: 1,
+    b: 2
+};
+{
+    "name": "Jack",
+    b: 2
+};
+a;
+a = 1;
+new A;
+0 || 2;
+1 || 2;
+0 && 2;
+1 && 2;
+a={b:2}; a.b;   // a={b:2}  {有bug（和之前的类似，看closure）
+</pre>
+
+
+<!-- <script src="LexParser.js"></script> -->
+<!-- <script type="module" src="SyntaxParser.js"></script> -->
+<script type="module" src="index.js"></script>
+
+<pre>
+对于编程语言来说，它的语法树的构造比声明式语言复杂得多。
+
+我们需要处理以下基本语法，同时也为后面的“运行时”做好准备。
+语句：运算符/优先级
+</pre>
+
+<pre>
+var a = 1;
+
+a() + 10 * x;
+
+if (a) {
+} else {
+}
+
+while (1) {
+
+}
+
+function foo(x, y) {
+    return abc;
+}
+</pre>
