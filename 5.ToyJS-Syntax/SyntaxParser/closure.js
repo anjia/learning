@@ -16,7 +16,7 @@ function closure(state) {
     let queue = [];
     for (let symbol in state) {
         if (symbol.match(/^\$/)) {
-            return;
+            continue; // fixed
         }
         queue.push(symbol);
     }
@@ -51,7 +51,7 @@ function closure(state) {
     // 此时：第一层symbol已经被展开了
     for (let symbol in state) {
         if (symbol.match(/^\$/)) {
-            return;
+            continue; // fixed
         }
         // 让状态机里：有环
         if (hash[JSON.stringify(state[symbol])]) {

@@ -7,7 +7,7 @@ let source = `
     let age;
     if (age) 2;
     function foo() { let sex; }
-    //1+2; //bug: Expression.（TODO.表达式时）
+    1+2; //bugfixed
 `;
 document.getElementById('code').innerHTML = source;
 
