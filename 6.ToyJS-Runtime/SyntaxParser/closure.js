@@ -70,11 +70,12 @@ let end = {
 let start = {
     'Program': end   // Program, IfStatement, VariableDeclaration, ExpressionStatement
 };
-// console.group('1.展开语法树/广度优先/求closure -> 所有能接受的non-terminal symbol -> 状态机');
+console.group('求closure: 展开语法定义/产生式');
+console.log('广度优先 -> 所有能接受的non-terminal symbol -> 状态机');
 // 求closure，将start状态里的'Program'展开
 closure(start);
 // console.log('hash:', hash);
-// console.log('广度优先展开的语法树:', start);
-// console.groupEnd();
+console.log(start);
+console.groupEnd();
 
 export { start };

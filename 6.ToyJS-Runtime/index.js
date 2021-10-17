@@ -5,8 +5,15 @@ import { Evaluator } from './Runtime/evaluator.js';
 const textArea = document.getElementById('source');
 document.getElementById('btn').addEventListener('click', e => {
     let source = textArea.value;
+
+    console.group('语法树');
     let tree = parseSyntaxTree(source);
+    console.log(tree);
+    console.groupEnd();
+
+    console.group('语义分析/运行时');
     (new Evaluator()).evaluate(tree);
+    console.groupEnd();
 });
 
 // var name;

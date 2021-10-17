@@ -62,7 +62,6 @@ function parse(source) {
     }
 
     let tree = reduce();
-    console.log('语法树：', tree);
     return tree;
 }
 // console.group('2.将lexer产生的token流 -> terminal symbols -> 在状态机里跑一圈 -> 语法树');

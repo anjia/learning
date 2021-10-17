@@ -34,7 +34,7 @@ export let syntax = {
         ['Expression', ';']  /*JS有对应的规则可自动插入;*/
     ],
     Expression: [
-        ['LogicalORExpression']  // AssignmentExpression
+        ['AssignmentExpression']
     ],
     AssignmentExpression: [
         // ['LeftHandsideExpression', '=', 'RightHandsideExpression'], // 左值表达式 一定是 右值表达式，即能出现在左边的就一定能出现在右边

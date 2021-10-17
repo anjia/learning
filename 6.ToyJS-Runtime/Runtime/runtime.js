@@ -9,15 +9,19 @@ export class ExecutionContext {
 }
 export class Reference {
     constructor(object, property) {
+        // debugger;
         this.object = object;
         this.property = property;
     }
     set(value) {
+        // debugger;
         // this.object.set(this.property, value);
         this.object[this.property] = value;
     }
     get() {
-        return this.object.get(this.property);
+        // debugger;
+        return this.object[this.property];
+        // return this.object.get(this.property);
     }
 }
 export class Realm {
@@ -31,74 +35,108 @@ export class Realm {
     }
 }
 
-export class EnvironmentRecord {
-    constructor(outer) {
-        // this.thisValue;
-        this.outer = outer || null;
-        this.variables = new Map();
-    }
-    add(name) {
-        this.variables.set(name, new JSUndefined);
-    }
-    get(name) {
-        if (this.variables.has(name)) {
-            return this.variables.get(name);
-        } else if (this.outer) {
-            return this.outer.get(name);
-        } else {
-            return JSUndefined;
-        }
-    }
-    set(name, value = new JSUndefined) {
-        if (this.variables.has(name)) {
-            return this.variables.set(name, value);
-        } else if (this.outer) {
-            return this.outer.set(name, value);
-        } else {
-            return this.variables.set(name, value);
-        }
-    }
-}
-export class ObjectEnvironmentRecord {
-    constructor() {
+// export class EnvironmentRecord {
+//     constructor(outer) {
+//         // this.thisValue;
+//         this.outer = outer || null;
+//         this.variables = new Map();
+//     }
+//     add(name) {
+//         this.variables.set(name, new JSUndefined);
+//     }
+//     get(name) {
+//         if (this.variables.has(name)) {
+//             return this.variables.get(name);
+//         } else if (this.outer) {
+//             return this.outer.get(name);
+//         } else {
+//             return JSUndefined;
+//         }
+//     }
+//     set(name, value = new JSUndefined) {
+//         if (this.variables.has(name)) {
+//             return this.variables.set(name, value);
+//         } else if (this.outer) {
+//             return this.outer.set(name, value);
+//         } else {
+//             return this.variables.set(name, value);
+//         }
+//     }
+// }
+// export class ObjectEnvironmentRecord {
+//     constructor() {
 
-    }
-    add() {
+//     }
+//     add() {
 
-    }
-    get() {
+//     }
+//     get() {
 
-    }
-    set() {
+//     }
+//     set() {
 
-    }
-}
+//     }
+// }
 
+// export class JSValue {
+//     get type() {
+//         // TODO.补全
+//         if (this.constructor === JSObject) {
+//             return 'object';
+//         }
+//         return 'undefined';
+//     }
+// }
+// export class JSNumber extends JSValue {
 
-export class JSValue {
+// }
+// export class JSString extends JSValue {
 
-}
-export class JSNumber extends JSValue {
+// }
+// export class JSBoolean extends JSValue {
 
-}
-export class JSString extends JSValue {
+// }
+// export class JSObject extends JSValue {
+//     constructor(proto) {
+//         super();
+//         this.properties = new Map();
+//         this.prototype = proto || null;
+//     }
+//     set(name, value) {
+//         // TODO. writable etc.
+//         this.setProperty(name, {
+//             value: value,
+//             writable: true,
+//             enumerable: true,
+//             configable: true
+//         });
+//     }
+//     get(name) {
+//         // TODO. prototype chain && getter
+//         return this.getProperty(name).value;
+//     }
+//     setProperty(name, attributes) {
+//         this.properties.set(name, attributes);
+//     }
+//     getProperty(name) {
+//         return this.properties.get(name);
+//     }
+//     setPrototype(proto) {
+//         this.prototype = proto;
+//     }
+//     getPrototype() {
+//         return this.prototype;
+//     }
+// }
+// export class JSNull extends JSValue {
 
-}
-export class JSBoolean extends JSValue {
+// }
+// export class JSUndefined extends JSValue {
 
-}
-export class JSObject extends JSValue {
+// }
+// export class JSSymbol extends JSValue {
 
-}
-export class JSNull extends JSValue {
+// }
+// export class CompletionRecord {
 
-}
-export class JSUndefined extends JSValue {
-
-}
-export class JSSymbol extends JSValue {
-
-}
-export class CompletionRecord {
-
-}
+// }

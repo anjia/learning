@@ -9,13 +9,16 @@ export class Evaluator {
     constructor() {
         this.realm = new Realm(); // 在JS引擎的一个新实例被建立起来的时候
         this.globalObject = {};
-        this.ecs = [new ExecutionContext(this.realm, this.globalObject)];  // 栈 ExecutionContext Stack 
+        this.ecs = [
+            new ExecutionContext(this.realm, this.globalObject)
+        ];  // 栈 ExecutionContext Stack 
     }
     evaluate(node) {
         if (this[node.type]) {
-            let r = this[node.type](node);
+            return this[node.type](node);
+            // let r = this[node.type](node);
             // console.log('=== evaluate():', node, r);
-            return r;
+            // return r;
         }
     }
     Program(node) {
@@ -156,15 +159,26 @@ export class Evaluator {
         if (node.children.length === 1) {
             return this.evaluate(node.children[0]);
         } else if (node.children.length === 3) {
+            let result;
             // a.b,  a[b]
-            debugger;
             let obj = this.evaluate(node.children[0]).get();  // 是个Reference, 所以需要解引用.get()
-            let prop = obj.get(node.children[2].name);
-            if ('value' in prop) {
-                return prop.value;
-            } else if ('get' in prop) {
-                return prop.get.call(obj);
+            // let prop = obj.get(node.children[2].name);  //TODO
+            let prop;
+            for (let item of obj) {
+                // let r = item[0].get();
+                let r = item[0].property;
+                if (r === node.children[2].name) {
+                    prop = item[1];
+                    break;
+                }
             }
+            if ('value' in prop) {
+                result = prop.value;
+            } else if ('get' in prop) {
+                result = prop.get.call(obj);
+            }
+            console.log(result);
+            return result;
         }
     }
     Identifier(node) {
@@ -174,6 +188,7 @@ export class Evaluator {
         // 在JS里，变量,常量,函数,对象,类都是Identifier
         // 变量要存哪？ExecutionContext
         let runningEC = this.ecs[this.ecs.length - 1]; // 从栈顶取
+        // console.log('==== this.ecs.length', this.ecs.length);
 
         // a=b; 即Identifier是可能出现在等号左边的，所以需要返回一个引用
         // JS的整个运行时都是用对象（属性）去描述的，所以就用一个新类型把(它所在的对象+属性名/值)都存起来
@@ -215,7 +230,7 @@ export class Evaluator {
 
             value = value * d + c;
         }
-        console.log(value);
+        // console.log(value);
         return value;
         // return Number(node.value);
         // console.log(node.type, ':', node.value);
@@ -289,12 +304,18 @@ export class Evaluator {
     }
     Property(node, object) {
         // 对象里存的不是具体的值，而是 descriptor
-        object.set(this.evaluate(node.children[0]), {
-            value: this.evaluate(node.children[2]),
+        let k = this.evaluate(node.children[0]);
+        let v = this.evaluate(node.children[2]);
+        object.set(k, {
+            value: v,
             writable: true,
             enumerable: true,
             configable: true
         });
+        // console.group('Property():');
+        // console.log(k);
+        // console.log(v);
+        // console.groupEnd();
     }
     EOF() {
         return null;
