@@ -1,0 +1,134 @@
+<textarea name="source" id="source" rows="10" style="width:100%;">
+let x;
+x = 1;
+function a(){  // 它的“定义”环境
+    log(x);
+}
+{
+    let x;
+    x = 2;
+    a();  // 它的执行环境
+}
+</textarea><br />
+<button id="btn">Run</button>
+<pre>
+"hello\bworld";
+"hello\nJack!";
+"a\rb!";
+"{}";
+{};
+{
+    a: 1
+};
+{
+    a: 1,
+    b: 2
+};
+{
+    "name": "Jack",
+    b: 2
+};
+a;
+a = 1;
+new A;
+0 || 2;
+1 || 2;
+0 && 2;
+1 && 2;
+a={b:2}; a.b;
+a={b:2, c:3, d:4}; a.b;
+
+a=1;
+if(a) b=a+1;
+b;
+
+a=1;
+a;
+
+a=1;
+if(a) a=3;  // true, false
+a;
+
+a=3;
+while(a) a=a-1;
+a;
+
+a=3;
+while(a) { a=a-1;}
+a;
+
+break;
+
+continue;
+
+a=10;
+break;
+a=a-1;
+a;
+
+a=3;
+while(a){
+    break;
+    a=a-1;
+}
+a;
+
+{
+let a;
+a=1;
+{
+let a;
+let b; //b的作用域，块+其之后
+a=a+1;
+}
+a;
+}
+
+{
+let a;
+a=1;
+{
+let a;
+a=1;
+let b;
+a=a+1;
+}
+a;
+}
+
+log('a', 1);
+
+let a;
+a=1;
+log(a, a+1);
+</pre>
+
+
+<!-- <script src="LexParser.js"></script> -->
+<!-- <script type="module" src="SyntaxParser.js"></script> -->
+<script type="module" src="index.js"></script>
+
+<pre>
+对于编程语言来说，它的语法树的构造比声明式语言复杂得多。
+
+我们需要处理以下基本语法，同时也为后面的“运行时”做好准备。
+语句：运算符/优先级
+</pre>
+
+<pre>
+var a = 1;
+
+a() + 10 * x;
+
+if (a) {
+} else {
+}
+
+while (1) {
+
+}
+
+function foo(x, y) {
+    return abc;
+}
+</pre>
