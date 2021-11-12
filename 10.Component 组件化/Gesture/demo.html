@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gesture</title>
+</head>
+
+<body oncontextmenu="event.preventDefault()">
+    <h2>基本手势</h2>
+    <p>不包括多点触控</p>
+    <img src="./imgs/gesture.png" alt="基本手势" width="500">
+</body>
+
+<script type="module">
+    import { enableGesture } from './index.js';
+    enableGesture(document.documentElement);
+
+    document.documentElement.addEventListener('tap', () => {
+        console.log('tap event trigger!');
+    });
+</script>
+
+</html>
