@@ -1,0 +1,15 @@
+// mocha 最早也是针对 nodejs 的测试框架。所以在使用webpack之前只支持 require('')
+const assert = require('assert');
+const math = require('../add.js');
+const add = math.add;
+
+describe('add()', function () {
+    it('1+2=3', function () {
+        assert.equal(add(1, 2), 3);
+    });
+
+    it('-6+2=-4', function () {
+        assert.equal(add(-6, 2), -4);
+    });
+});
+
