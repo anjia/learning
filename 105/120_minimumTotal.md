@@ -48,7 +48,7 @@ var minimumTotal = function(triangle) {
 
 > 执行结果：执行出错（栈溢出）
 
-打印 log，我们可以看到递归了很多重复状态。以 `[[2],[3,4],[6,5,7],[4,1,8,3]]` 为例，二维数组表示即：
+打印 log，可以看到递归了很多重复状态。以 `[[2],[3,4],[6,5,7],[4,1,8,3]]` 为例，二维数组表示即：
 
 ```
 2
@@ -81,7 +81,7 @@ dfs(3, 3), path= [ 2, 4, 7, 3 ]
 
 自顶向下思考：从第一行开始，依次计算每个点从`[0,0]`出发到本位置的最小和，一直计算到最后一行。最后，再直接取最后一行中和最小的那个，便就是答案。
 
-自底向上思考：从最后一行开始，依次计算每个点能到最后一行的和最小的那个，一直计算到第一行。最后，`[0,0]`位置的和，便就是答案。
+自底向上思考：从最后一行开始，依次计算上一行能到本位置的最小和，一直计算到第一行。最后，`[0,0]`位置的和，便就是答案。
 
 ## 2. 动态规划（自顶向下）
 
@@ -107,8 +107,7 @@ var minimumTotal = function(triangle) {
     for (let col = 0; col < triangle[row].length; col++) {
       let prevMin = Infinity;
       if (col < minSum[row - 1].length) prevMin = minSum[row - 1][col]; // 从 [row-1][col] 来
-      if (col > 0 && minSum[row - 1][col - 1] < prevMin)
-        prevMin = minSum[row - 1][col - 1]; // 从 [row-1][col-1] 来
+      if (col > 0 && minSum[row - 1][col - 1] < prevMin) prevMin = minSum[row - 1][col - 1]; // 从 [row-1][col-1] 来
       minSum[row][col] = triangle[row][col] + prevMin; // 取最小的那个 + 再加本位置的值
     }
 
@@ -133,15 +132,13 @@ var minimumTotal = function(triangle) {
   for (let i = 0; i < n; i++) minSum[i] = [];
 
   // 初始化状态空间
-  for (let i = 0; i < triangle[n - 1].length; i++)
+  for (let i = 0; i < triangle[n - 1].length; i++) 
     minSum[n - 1][i] = triangle[n - 1][i];
 
   // 动态规划
   for (let row = n - 2; row >= 0; row--)
     for (let col = 0; col < triangle[row].length; col++)
-      minSum[row][col] =
-        triangle[row][col] +
-        Math.min(minSum[row + 1][col], minSum[row + 1][col + 1]);
+      minSum[row][col] = triangle[row][col] + Math.min(minSum[row + 1][col], minSum[row + 1][col + 1]);
 
   return minSum[0][0];
 };
@@ -151,4 +148,4 @@ var minimumTotal = function(triangle) {
 
 本题先从暴力搜索出发，理清了状态空间。再对状态空间进行了调整，然后就用 for 循环实现了动态规划，跳过了“记忆化搜索”那步。
 
-与动态规划相比，记忆化搜索的代码显得繁琐和冗长，这里就没再写了。其实，暴力搜索的目的也主要是辅助我们理清状态空间，如果状态转移的递推公式一下子就能看出来，暴力搜索这步也能直接省略，直接写动态规划的代码。
+与动态规划相比，记忆化搜索的代码显得繁琐和冗长，这里就没再写了。其实，暴力搜索的目的也主要是辅助理清状态空间，如果状态转移的递推公式一下子就能看出来，暴力搜索这步也能省略，直接写动态规划的代码。
